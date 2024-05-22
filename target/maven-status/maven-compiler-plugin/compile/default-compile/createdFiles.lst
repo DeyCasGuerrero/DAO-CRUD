@@ -1,5 +1,8 @@
+View\Window$11.class
 DataSource\DatabaseConnection.class
 View\Window$4.class
+View\Window$10.class
+utils\Evaluar.class
 View\Window$9.class
 View\Window$2.class
 View\Window$5.class
@@ -11,6 +14,7 @@ View\Window$1.class
 utils\Controlador.class
 View\Window.class
 BussinesObject\PersonaBO.class
+utils\ControladorErrores.class
 Model\Persona.class
 View\Window$3.class
 DataAccessObject\PersonaDAO.class

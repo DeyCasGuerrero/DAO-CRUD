@@ -1,15 +1,21 @@
 package View;
 
+import BussinesObject.PersonaBO;
 import javax.swing.table.DefaultTableModel;
 import utils.Controlador;
-
+import utils.ControladorErrores;
 
 public class Window extends javax.swing.JFrame {
 
     private Controlador controller;
+    private PersonaBO personaBO;
+    private ControladorErrores controlError;
+
     public Window() {
         initComponents();
-        controller= new Controlador();
+        controller = new Controlador();
+        controlError = new ControladorErrores();
+        personaBO = new PersonaBO();
         InicializarDatos();
     }
 
@@ -32,6 +38,7 @@ public class Window extends javax.swing.JFrame {
         panel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblMostrar = new javax.swing.JTable();
+        btnActualizarLista = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,6 +113,11 @@ public class Window extends javax.swing.JFrame {
                 "ID", "Nombre", "Correo", "Telefono"
             }
         ));
+        tblMostrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblMostrarMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblMostrar);
 
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
@@ -114,16 +126,23 @@ public class Window extends javax.swing.JFrame {
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panel1Layout.setVerticalGroup(
             panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panel1Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        btnActualizarLista.setText("Actualizar Lista");
+        btnActualizarLista.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarListaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -142,14 +161,17 @@ public class Window extends javax.swing.JFrame {
                     .addComponent(txtNombre)
                     .addComponent(txtCorreo)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 152, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
-                .addComponent(btnBuscar)
-                .addGap(76, 76, 76)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(btnEliminar)
-                        .addComponent(btnEditar))
-                    .addComponent(btnGuardar))
+                    .addComponent(btnActualizarLista)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnBuscar)
+                        .addGap(20, 20, 20)))
+                .addGap(48, 48, 48)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGuardar)
+                    .addComponent(btnEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(109, 109, 109))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -168,10 +190,13 @@ public class Window extends javax.swing.JFrame {
                         .addGap(11, 11, 11)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(btnBuscar))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnActualizarLista))
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -181,9 +206,7 @@ public class Window extends javax.swing.JFrame {
                         .addGap(49, 49, 49)
                         .addComponent(btnEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnEliminar)
-                            .addComponent(btnBuscar))
+                        .addComponent(btnEliminar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnGuardar)))
                 .addGap(40, 40, 40)
@@ -216,25 +239,45 @@ public class Window extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
+        boolean option = controlError.evaluar(rootPaneCheckingEnabled);
+        Long id = controller.obtenerID();
+        personaBO.deletePerson(id, option);
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        String id = txtID.getText();
+        String nombre = txtNombre.getText();
+        String correo = txtCorreo.getText();
+        String telefono = txtTelefono.getText();
+        personaBO.createPerson(id, nombre, correo, telefono);
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
-    
-    public void InicializarDatos(){
+    private void btnActualizarListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarListaActionPerformed
+        // TODO add your handling code here:
+        InicializarDatos();
+    }//GEN-LAST:event_btnActualizarListaActionPerformed
+
+    private void tblMostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMostrarMouseClicked
+        // TODO add your handling code here:
+        controller.obtenerID();
+    }//GEN-LAST:event_tblMostrarMouseClicked
+
+    public void InicializarDatos() {
         controller.obtenerDatosParaTabla();
         DefaultTableModel modelo = controller.obtenerDatosParaTabla();
         tblMostrar.setModel(modelo);
     }
-   
+
     public static void main(String args[]) {
-       
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Window().setVisible(true);
@@ -243,6 +286,7 @@ public class Window extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizarLista;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
@@ -253,7 +297,7 @@ public class Window extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JPanel panel1;
-    private javax.swing.JTable tblMostrar;
+    public static javax.swing.JTable tblMostrar;
     public static javax.swing.JTextField txtCorreo;
     public static javax.swing.JTextField txtID;
     public static javax.swing.JTextField txtNombre;

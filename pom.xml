@@ -12,6 +12,7 @@
         <exec.mainClass>com.mycompany.crud.dao.CRUDDAO</exec.mainClass>
     </properties>
     
+    
     <dependencies>
         <dependency>
             <groupId>mysql</groupId>
@@ -19,4 +20,5 @@
             <version>8.0.33</version>
         </dependency>
     </dependencies>
+    
 </project>

@@ -2,7 +2,7 @@ package Model;
 
 public class Persona {
     
-    private Long id= null;
+    private Long id = null;
     private String nombre;
     private String correo;
     private String telefono;

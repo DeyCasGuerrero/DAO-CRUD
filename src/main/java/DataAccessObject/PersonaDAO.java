@@ -15,18 +15,26 @@ public class PersonaDAO implements IPersonDAO {
 
     @Override
     public void create(Persona persona) {
-        String sql = "INSERT INTO persona (nombre, correo, telefono) VALUES (?, ?, ?)";
-//        String sql;
-//        if (id == null) {
-//            sql = "INSERT INTO persona (nombre, correo, telefono) VALUES (?, ?, ?)";
-//        } else {
-//            sql = "INSERT INTO persona (id, nombre, correo, telefono) VALUES (?, ?, ?, ?)";
-//        }
+        String sql;
+        if (persona.getId() == null) {
+            sql = "INSERT INTO persona (nombre, correo, telefono) VALUES (?, ?, ?)";
+        } else {
+            sql = "INSERT INTO persona (id, nombre, correo, telefono) VALUES (?, ?, ?, ?)";
+        }
 
         try (Connection connection = DatabaseConnection.getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, persona.getNombre());
-            statement.setString(2, persona.getCorreo());
-            statement.setString(3, persona.getTelefono());
+
+            if (persona.getId() != null) {
+                statement.setLong(1, persona.getId());
+                statement.setString(2, persona.getNombre());
+                statement.setString(3, persona.getCorreo());
+                statement.setString(4, persona.getTelefono());
+            } else {
+                statement.setString(1, persona.getNombre());
+                statement.setString(2, persona.getCorreo());
+                statement.setString(3, persona.getTelefono());
+            }
+
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Error al crear una persona en la base de datos", e);
