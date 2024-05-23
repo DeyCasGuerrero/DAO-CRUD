@@ -1,6 +1,7 @@
 package View;
 
 import BussinesObject.PersonaBO;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import utils.Controlador;
 import utils.ControladorErrores;
@@ -16,6 +17,8 @@ public class Window extends javax.swing.JFrame {
         controller = new Controlador();
         controlError = new ControladorErrores();
         personaBO = new PersonaBO();
+        setTitle("CRUD");
+        this.setLocationRelativeTo(null);
         InicializarDatos();
     }
 
@@ -172,7 +175,7 @@ public class Window extends javax.swing.JFrame {
                     .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnGuardar)
                     .addComponent(btnEditar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(109, 109, 109))
+                .addGap(106, 106, 106))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -235,11 +238,30 @@ public class Window extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
+        String id = txtID.getText();
+        controller.buscarYMostrarPersonaPorID(id);
+        
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
-        
+        String idStr = txtID.getText();
+        Long id = null;
+
+        if (idStr != null && !idStr.isEmpty()) {
+            try {
+                id = Long.parseLong(idStr);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(rootPane, "ID debe ser un número válido");
+            }
+        }
+        String nombre = txtNombre.getText();
+        String correo = txtCorreo.getText();
+        String telefono = txtTelefono.getText();
+
+        boolean option = controlError.evaluar(rootPaneCheckingEnabled);
+
+        personaBO.updatePerson(id, nombre, correo, telefono, option);
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -268,9 +290,14 @@ public class Window extends javax.swing.JFrame {
     private void tblMostrarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMostrarMouseClicked
         // TODO add your handling code here:
         controller.obtenerID();
+        controller.llenarDetalles();
     }//GEN-LAST:event_tblMostrarMouseClicked
 
     public void InicializarDatos() {
+        txtID.setText("");
+        txtCorreo.setText("");
+        txtNombre.setText("");
+        txtTelefono.setText("");
         controller.obtenerDatosParaTabla();
         DefaultTableModel modelo = controller.obtenerDatosParaTabla();
         tblMostrar.setModel(modelo);

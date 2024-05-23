@@ -18,10 +18,20 @@ public class ControladorErrores implements Evaluar{
         }
 
     }
+    
+    public boolean EvaluarId(Long id ,String nombre, String correo, String telefono){
+        if ((id==null) ||(nombre == null || nombre.isEmpty()) || (correo == null || correo.isEmpty()) || (telefono == null || telefono.isEmpty())) {
+            JOptionPane.showMessageDialog(rootPane, "COLOQUE TODOS LO CAMPOS PARA EDITAR");
+            return false;
+        } else {
+            
+            return true;
+        }
+    }
 
     @Override
     public boolean evaluar(boolean opcion) {
-        int confirmacion = JOptionPane.showConfirmDialog(null, "¿Deseas seleccionar y eliminar esta fila?", "Confirmar selección", JOptionPane.YES_NO_OPTION);
+        int confirmacion = JOptionPane.showConfirmDialog(null, "¿Deseas continuar con la operación?", "Confirmar selección", JOptionPane.YES_NO_OPTION);
         if (confirmacion == JOptionPane.YES_OPTION) {
             return true;
         } else {

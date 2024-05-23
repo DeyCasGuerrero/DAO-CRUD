@@ -46,11 +46,21 @@ public class PersonaBO {
 
     }
 
-    public void updatePerson(Long id, String nombre, String correo, String telefono) {
+    public void updatePerson(Long id, String nombre, String correo, String telefono, boolean option) {   
+        boolean retorno = controlError.EvaluarId(id, nombre, correo, telefono);
         
-        
-        Persona persona = new Persona(id, nombre, correo, telefono);
-        personDAO.update(persona);
+        if(retorno){
+
+            if(option){
+                Persona persona = new Persona(id, nombre, correo, telefono);
+                personDAO.update(persona);
+            }else{
+               
+            }
+        }else{
+      
+        }
+
     }
 
     public void deletePerson(Long id, boolean option) {

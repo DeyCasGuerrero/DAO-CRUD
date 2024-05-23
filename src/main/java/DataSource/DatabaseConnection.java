@@ -23,7 +23,6 @@ public class DatabaseConnection {
             try {
                 connection.close();
             } catch (SQLException e) {
-                // Manejo de excepciones
                 System.err.println("Error al cerrar la conexión: " + e.getMessage());
             }
         }
